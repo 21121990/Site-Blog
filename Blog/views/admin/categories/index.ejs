@@ -23,11 +23,10 @@
                 <th><%= categories.slug %></th>
                 <th>
 
-                    <form method="POST" action="/categories/delete" style="display: inline;">
-                        <input type="hidden" name="id" value="<%= categories.id %>">
-                        <button class="btn btn-primary">Editar</button>
-                    </form>
-                    <form method="POST" action="/categories/delete" style="display: inline;">
+                    <a href="/admin/categories/edit/<%= categories.id %>" class="btn btn-primary">Editar</a>
+
+                    <form onsubmit="confirmarDelecao(event, this)" method="POST" action="/categories/delete"
+                        style="display: inline;">
                         <input type="hidden" name="id" value="<%= categories.id %>">
                         <button class="btn btn-primary">Deletar</button>
                     </form>
@@ -39,3 +38,13 @@
 </div>
 
 <%- include ('../../partials/footer.ejs') %>
+
+<script>
+    function confirmarDelecao(event, form) {
+        event.preventDefault();
+        var decision = confirm("Você deseja realmente exlcuir?");
+        if (decision) {
+            form.submit();
+        }
+    }
+</script>

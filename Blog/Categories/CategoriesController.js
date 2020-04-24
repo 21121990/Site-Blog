@@ -38,17 +38,48 @@ router.post("/categories/delete", (req, res) => {
                 where: {
                     id: id
                 }
-            }).then(() =>{
+            }).then(() => {
                 res.redirect("/admin/categories");
             });
 
         } else { // Não for número
             res.redirect("/admin/categories");
         }
-    }else{ //null
+    } else { //null
         res.redirect("/admin/categories");
     }
 })
+
+router.get("/admin/categories/edit/:id", (req, res) => {
+    var id = req.params.id;
+
+    if (isNaN(id)) {
+        res.redirect("/admin/categories");
+    }
+    Categories.findByPk(id).then(categorie => {
+
+        if (categorie != undefined) {
+            res.render("admin/categories/edit", { categorie: categorie });
+        } else {
+            res.redirect("/admin/categories");
+        }
+    }).catch(error => {
+        res.redirect("/admin/categories");
+    })
+})
+
+router.post("/categories/update", (req, res) => {
+    var id = req.body.id;
+    var title = req.body.title;    
+
+    Categories.update({ title: title, slug: slugify(title) }, {
+        where: {
+            id: id
+        }
+    }).then(()=>{
+        res.redirect("/admin/categories");
+    })
+});
 
 
 
