@@ -18,10 +18,22 @@
         </thead>
         <tbody>
             <% articles.forEach((article) => {%>
-            <td><%=article.id %></td>
-            <td><%=article.title %></td>
-            <td><%=article.slug %></td>
-            <td><%=article.category.title %></td>
+            <tr>
+                <th><%=article.id %></th>
+                <th><%=article.title %></th>
+                <th><%=article.slug %></th>
+                <th><%=article.category.title %></th>
+
+                <th>
+                    <a href="/admin/articles/edit/<%= article.id %>" class="btn btn-primary">Editar</a>
+                    <form onsubmit="confirmarDelecao(event, this)" method="POST" action="/articles/delete"
+                        style="display: inline;">
+                        <input type="hidden" name="id" value="<%= article.id %>">
+                        <button class="btn btn-primary">Deletar</button>
+                    </form>
+                </th>
+            </tr>
+
             <%})%>
         </tbody>
     </table>

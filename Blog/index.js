@@ -32,7 +32,25 @@ app.use("/", articlesController);
 
 
 app.get("/", (req, res) => {
-    res.render("index");
+    Articles.findAll().then(articles =>{
+        res.render("index",{articles:articles});
+    });
+    
+});
+
+app.get("/:slug",(req,res)=>{
+    var slug = req.params.slug;
+    Articles.findOne({
+        where:{ slug : slug}
+    }).then(articles =>{
+        if(articles != undefined){
+            res.render("article",{articles: articles});
+        }else{
+            res.redirect("/");
+        }
+    }).catch(err =>{
+        res.redirect("/");
+    });
 })
 
 app.listen(8080, () => {

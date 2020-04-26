@@ -1,8 +1,34 @@
-<%- include ('./partials/header.ejs') %> 
+<%- include ('./partials/header.ejs') %>
+<%- include ('./partials/homenavebar.ejs') %>
 
 <body>
-    <%- include ('./partials/navbar.ejs') %>
-        <h3>Página 1</h3>
-   
+
+    <div class="container">
+        <hr>
+        <div class="jumbotron">
+            <h1 class="display-4">Bem vindo!</h1>
+            <p class="lead">Esse é um blog para estudar nood.js.</p>
+            <hr class="my-4">
+            <p>Veja abaixo alguns artigos relacionados.</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="#" role="button">Saiba mais</a>
+            </p>
+        </div>
+        <hr>
+        <% articles.forEach(article => {%>
+        <div class="card">
+            <div class="card-header">
+                <h2><%= article.title %></h2>
+
+            </div>
+            <div class="card-body">
+                <a href="/<%= article.slug %>" class="btn btn-primary">Ler artigos</a>
+
+            </div>
+        </div>
+        <br>
+        <%})%>
+    </div>
+
 </body>
 <%- include ('./partials/footer.ejs') %>
