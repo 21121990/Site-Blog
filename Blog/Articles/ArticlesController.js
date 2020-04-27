@@ -6,7 +6,8 @@ const slugify = require("slugify");
 
 router.get("/admin/articles", (req, res) => {
     Articles.findAll({
-        include: [{ model: Category }]
+        include: [{ model: Category }],
+        order:[['id','desc']]
     }).then(articles => {
         res.render("admin/articles/index", { articles: articles })
     });
@@ -89,10 +90,36 @@ router.post("/articles/update", (req, res) => {
     }, { where: { id: id } }
     ).then(() => {
         res.redirect("/admin/articles");
-    }).catch(err =>{
+    }).catch(err => {
         res.redirect("/");
     });
-
+})
+router.get("/articles/page/:num", (req, res) => {
+    var page = req.params.num;
+    var offset = 0;
+    if (isNaN(page) || page == 1) {
+        offset = 0;
+    } else {
+        offset = parseInt(page) * 4 - 4;
+    }
+    Articles.findAndCountAll({
+        limit: 4,
+        offset: offset
+    }).then(articles => {
+        var next;
+        if (offset >= articles.count) {
+            next = false;
+        } else {
+            next = true;
+        }
+        var result = {
+            next: next,
+            articles: articles
+        }
+        Category.findAll().then(categories =>{
+            res.render("admin/articles/page",{result: result, categories: categories})
+        });
+    })
 })
 
 
