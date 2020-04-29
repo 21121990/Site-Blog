@@ -91,6 +91,6 @@ app.get("/categories/:slug", (req, res) => {
     })
 })
 
-app.listen(8080, () => {
+app.listen(3000, () => {
     console.log("Servidor online")
 });
